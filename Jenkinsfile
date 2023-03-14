@@ -7,31 +7,31 @@ pipeline {
         AWS_DEFAULT_REGION    = "us-east-1"
     }
     stages {
-        // stage('Create EKS Cluster') {
-        //     steps {
-        //         //
-        //         script {
-        //             dir('terraform') {
-        //                 sh "terraform init"
-        //                 sh "terraform apply --auto-approve"
-        //                 // sh "terraform destroy --auto-approve"
-        //             }
-        //         } 
-        //     }
-        // }
-        stage('deploy mongo') {
+        stage('Create EKS Cluster') {
             steps {
-                // 
+                //
                 script {
-                    script {
-                        dir('kubernetes') {
-                            sh "aws eks update-kubeconfig --name myapp-eks-cluster"
-                            sh "kubectl apply -f mongo-deployment.yaml"
-                            sh "kubectl port-forward svc/kube-prometheus-stackr-prometheus 9090:9090"
-                        }
+                    dir('terraform') {
+                        sh "terraform init"
+                        // sh "terraform apply --auto-approve"
+                        sh "terraform destroy --auto-approve"
                     }
-                }
+                } 
             }
         }
+        // stage('deploy mongo') {
+        //     steps {
+        //         // 
+        //         script {
+        //             script {
+        //                 dir('kubernetes') {
+        //                     sh "aws eks update-kubeconfig --name myapp-eks-cluster"
+        //                     sh "kubectl apply -f mongo-deployment.yaml"
+        //                     sh "kubectl port-forward svc/kube-prometheus-stackr-prometheus 9090:9090"
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
