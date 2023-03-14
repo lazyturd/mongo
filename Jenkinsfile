@@ -7,18 +7,18 @@ pipeline {
         AWS_DEFAULT_REGION    = "us-east-1"
     }
     stages {
-        stage('Create EKS Cluster') {
-            steps {
-                //
-                script {
-                    dir('terraform') {
-                        sh "terraform init"
-                        sh "terraform apply --auto-approve"
-                        // sh "terraform destroy --auto-approve"
-                    }
-                } 
-            }
-        }
+        // stage('Create EKS Cluster') {
+        //     steps {
+        //         //
+        //         script {
+        //             dir('terraform') {
+        //                 sh "terraform init"
+        //                 sh "terraform apply --auto-approve"
+        //                 // sh "terraform destroy --auto-approve"
+        //             }
+        //         } 
+        //     }
+        // }
         stage('deploy mongo') {
             steps {
                 // 
