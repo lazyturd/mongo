@@ -21,10 +21,15 @@ provider "aws" {
 
 provider "helm" {
   kubernetes {
-    # config_path = "~/.kube/config"
-    host                   = module.eks.myapp-eks-cluster.cluster_endpoint
+     host                   = module.eks.cluster_endpoint
     # cluster_certificate = base64decode(module.eks.cluster_certificate)
-    cluster_ca_certificate = base64decode(module.eks.myapp-eks-cluster.cluster_certificate_authority_data)
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+      exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    # This requires the awscli to be installed locally where Terraform is executed
+    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+      }
   }
 }
 
@@ -32,4 +37,10 @@ provider "kubernetes" {
     host                   = module.eks.cluster_endpoint
     # cluster_certificate = base64decode(module.eks.cluster_certificate)
     cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+      exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    # This requires the awscli to be installed locally where Terraform is executed
+    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+  }
 }
